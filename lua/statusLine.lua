@@ -41,6 +41,7 @@ local modeBorderHighlights = {
    ["t"] = "StatusLineBorderTerminal",
 }
 
+-- Function to generate status line content
 MyStatusline = function()
    local mode = string.sub(vim.api.nvim_get_mode().mode, 1, 1)
    local output = ""
@@ -58,10 +59,11 @@ MyStatusline = function()
        .. "%{&modified ? '󱞈' : ''}"
        -- Rest of status line
        .. "%##"
-       .. "%=" -- Fills spacing to right
+       .. "%="  -- Fills spacing to right
+
+   -- Show errors/warnings/etc. from LSP
    local count = vim.diagnostic.count()
    local signs = vim.diagnostic.config().signs.text
-
    if count[1] ~= nil then
       output = output .. "%#DiagnosticError# " .. signs[1] .. " " .. count[1] .. " "
    end
@@ -77,6 +79,7 @@ MyStatusline = function()
    return output
 end
 
+-- Create auto-command to trigger when color scheme is loaded
 vim.api.nvim_create_autocmd("ColorScheme", {
    callback = function()
       -- Get terminal colors from color scheme
